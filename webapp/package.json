@@ -6,13 +6,18 @@
   "scripts": {
     "start": "node server.js",
     "test:integration": "node --test tests/integration.test.js",
-    "test:ui": "playwright test"
+    "test:ui": "playwright test",
+    "lint:security": "eslint ."
   },
   "dependencies": {
     "express": "^4.19.2",
     "mysql2": "^3.11.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.47.0"
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.47.0",
+    "eslint": "^10.7.0",
+    "eslint-plugin-security": "^4.0.1",
+    "globals": "^17.7.0"
   }
 }

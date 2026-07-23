@@ -27,7 +27,7 @@ test('valid search term is accepted, rendered back, and persisted in `2401603`',
 
   assert.equal(res.status, 200);
   const body = await res.text();
-  assert.match(body, new RegExp(term));
+  assert.ok(body.includes(term));
   assert.match(body, /Back to Home/);
 
   const pool = mysql.createPool({

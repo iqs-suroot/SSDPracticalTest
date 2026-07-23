@@ -28,6 +28,26 @@ jobs:
         working-directory: webapp
         run: npm audit --audit-level=high
 
+  eslint-security:
+    name: ESLint Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: webapp/package-lock.json
+
+      - name: Install dependencies
+        working-directory: webapp
+        run: npm ci
+
+      - name: Run ESLint (eslint-plugin-security)
+        working-directory: webapp
+        run: npm run lint:security
+
   integration-test:
     name: Integration Tests (webapp + MySQL)
     runs-on: ubuntu-latest

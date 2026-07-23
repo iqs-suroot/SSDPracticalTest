@@ -38,10 +38,11 @@
     if (!ALLOWED_CHARS_PATTERN.test(trimmed)) {
       return { valid: false, reason: 'attack' };
     }
-    for (var i = 0; i < ATTACK_PATTERNS.length; i++) {
-      if (ATTACK_PATTERNS[i].test(trimmed)) {
-        return { valid: false, reason: 'attack' };
-      }
+    var isAttack = ATTACK_PATTERNS.some(function (pattern) {
+      return pattern.test(trimmed);
+    });
+    if (isAttack) {
+      return { valid: false, reason: 'attack' };
     }
     return { valid: true, value: trimmed };
   }
