@@ -10,6 +10,7 @@ services:
         volumes:
          - ./nginx/conf.d:/etc/nginx/conf.d:ro
          - ./nginx/certs:/etc/nginx/certs:ro
+         - ./nginx/auth:/etc/nginx/auth:ro
     webapp:
       build:
         context: ./webapp
@@ -47,3 +48,29 @@ services:
       volumes:
         - ./repos:/git-server/repos
         - ./keys:/git-server/keys:ro
+    sonarqube:
+      image: sonarqube:lts-community
+      restart: always
+      environment:
+        # Embedded H2 DB is fine for this local/practical setup; not for production use.
+        # Skips the Elasticsearch bootstrap checks (vm.max_map_count etc.) that are
+        # impractical to satisfy on a Docker Desktop / Windows host for local dev.
+        SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+      ports:
+        - "127.0.0.1:9000:9000"
+      volumes:
+        - sonarqube_data:/opt/sonarqube/data
+        - sonarqube_extensions:/opt/sonarqube/extensions
+        - sonarqube_logs:/opt/sonarqube/logs
+    sonarqube-init:
+      image: curlimages/curl:8.10.1
+      depends_on:
+        - sonarqube
+      volumes:
+        - ./sonarqube/init-admin-password.sh:/init-admin-password.sh:ro
+      entrypoint: ["/bin/sh", "/init-admin-password.sh"]
+
+volumes:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:

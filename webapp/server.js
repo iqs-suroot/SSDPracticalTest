@@ -4,6 +4,7 @@ const path = require('path');
 const { MIN_LENGTH, MAX_LENGTH, validateSearchTerm } = require('./validation');
 
 const app = express();
+app.disable('x-powered-by'); // don't fingerprint the framework in responses
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 

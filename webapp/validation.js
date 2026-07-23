@@ -22,7 +22,7 @@
   var ATTACK_PATTERNS = [
     /(--|#|\/\*|\*\/)/,                                            // SQL comment sequences
     /(\bunion\b|\bselect\b|\binsert\b|\bupdate\b|\bdelete\b|\bdrop\b|\balter\b|\bexec\b|\bxp_cmdshell\b)/i,
-    /(\bor\b|\band\b)\s+['"]?\s*\w+\s*=\s*\w+/i,                    // e.g. OR 1=1
+    /(\bor\b|\band\b)[\s'"]+\w+\s*=\s*\w+/i,                        // e.g. OR 1=1
     /['";]/,                                                       // quote / statement terminators
     /<\s*script/i                                                  // basic XSS payload marker
   ];

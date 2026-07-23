@@ -4,6 +4,7 @@ RUN apk add --no-cache openssh git bash \
     && ssh-keygen -A \
     && addgroup git \
     && adduser -D -G git -s /bin/bash git \
+    && passwd -u git \
     && mkdir -p /git-server/repos /git-server/keys /home/git/.ssh \
     && chown -R git:git /home/git/.ssh /git-server \
     && chmod 700 /home/git/.ssh
