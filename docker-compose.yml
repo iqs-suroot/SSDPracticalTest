@@ -1,0 +1,49 @@
+services:
+    nginxwebsvr:
+        image: nginx:alpine
+        container_name: nginxwebsvr
+        depends_on:
+         - webapp
+        ports:
+         - "80:80"
+         - "443:443"
+        volumes:
+         - ./nginx/conf.d:/etc/nginx/conf.d:ro
+         - ./nginx/certs:/etc/nginx/certs:ro
+    webapp:
+      build:
+        context: ./webapp
+      container_name: webapp
+      restart: always
+      depends_on:
+        - mysqldb
+      environment:
+        DB_HOST: mysqldb
+        DB_USER: user
+        DB_PASSWORD: pass
+        DB_NAME: testdb
+      ports:
+        - "3000:3000"
+    mysqldb:
+      image: mysql:8.0
+      restart: always
+      ports:
+        - "3306:3306"
+      volumes:
+      - ./mysql_data:/var/lib/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: pass
+        MYSQL_DATABASE: testdb
+        MYSQL_USER: user
+        MYSQL_PASSWORD: pass
+    git-server:
+      build:
+        context: .
+        dockerfile: gitserver.Dockerfile
+      container_name: git-server
+      restart: always
+      ports:
+        - "2222:22"
+      volumes:
+        - ./repos:/git-server/repos
+        - ./keys:/git-server/keys:ro

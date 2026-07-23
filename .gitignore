@@ -1,0 +1,17 @@
+# Runtime data / secrets — never commit these
+mysql_data/
+repos/
+keys/
+client-keys/
+nginx/certs/*.key
+
+# This is a separate scratch git repo, not part of this project
+repository/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Playwright
+playwright-report/
+test-results/
